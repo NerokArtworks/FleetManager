@@ -1,0 +1,74 @@
+# ----------------------------
+# Ignorar archivos de Visual Studio / .NET
+# ----------------------------
+
+bin/
+obj/
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider IDE
+.idea/
+
+# Dotnet publish output
+publish/
+
+# NuGet packages
+*.nupkg
+*.snupkg
+packages/
+.nuget/
+
+# Logs
+*.log
+
+# Configuración local y secretos
+appsettings.Development.json
+appsettings.Local.json
+secrets.json
+
+# ----------------------------
+# Ignorar Node.js / frontend
+# ----------------------------
+
+# Dependencias instaladas
+node_modules/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Directorio de build de React/Vite
+dist/
+build/
+
+# Variables de entorno
+.env
+.env.local
+.env.*.local
+
+# ----------------------------
+# Archivos específicos del sistema operativo
+# ----------------------------
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Mac
+.DS_Store
+
+# ----------------------------
+# Docker
+# ----------------------------
+
+# Archivos temporales creados por docker-compose
+docker-compose.override.yml
+
+# ----------------------------
+# Otr
