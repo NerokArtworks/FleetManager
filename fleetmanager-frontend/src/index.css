@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: light dark;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  @apply m-0 flex items-center justify-center min-w-[320px] min-h-screen font-sans leading-relaxed font-normal text-gray-900 bg-white dark:text-gray-100 dark:bg-gray-900;
+}
+
+h1 {
+  font-size: 3.2rem;
+  line-height: 1.1;
+  font-weight: 700;
+}
+
+a {
+  @apply font-medium no-underline text-blue-700;
+  /* Azul un poco más oscuro para mejor legibilidad */
+}
+
+a:hover {
+  @apply text-blue-500;
+  /* Hover más suave */
+}
+
+button {
+  @apply rounded border border-transparent text-base font-medium bg-blue-700 text-white cursor-pointer transition-colors duration-200;
+}
+
+button:hover {
+  @apply bg-blue-600;
+}
+
+button:focus,
+button:focus-visible {
+  outline: 3px solid #1d4ed8;
+  /* Anillo de foco azul más definido */
+  outline-offset: 2px;
+}
+
+/* Preferencia modo claro */
+@media (prefers-color-scheme: light) {
+  body {
+    @apply text-gray-900 bg-white;
+  }
+
+  a:hover {
+    @apply text-blue-500;
+  }
+
+  button {
+    @apply bg-blue-700 text-white;
+  }
+
+  button:hover {
+    @apply bg-blue-600;
+  }
+}

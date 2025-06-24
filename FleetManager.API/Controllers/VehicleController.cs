@@ -1,6 +1,5 @@
 using FleetManager.Application.DTOs;
 using FleetManager.Application.Interfaces;
-using FleetManager.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
@@ -32,35 +31,27 @@ public class VehicleController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create(CreateVehicleRequest request)
     {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
         var created = await _vehicleService.CreateAsync(request);
         return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
     }
 
-	[HttpPut("{id:guid}")]
+    [HttpPut("{id:guid}")]
     public async Task<IActionResult> Update(Guid id, CreateVehicleRequest request)
     {
-        try
-        {
-            await _vehicleService.UpdateAsync(id, request);
-            return NoContent();
-        }
-        catch (KeyNotFoundException)
-        {
-            return NotFound();
-        }
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        await _vehicleService.UpdateAsync(id, request);
+        return NoContent();
     }
 
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        try
-        {
-            await _vehicleService.DeleteAsync(id);
-            return NoContent();
-        }
-        catch (KeyNotFoundException)
-        {
-            return NotFound();
-        }
+        await _vehicleService.DeleteAsync(id);
+        return NoContent();
     }
 }
