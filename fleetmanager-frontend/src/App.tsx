@@ -1,32 +1,41 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
-import AppLayout from './components/layouts/AppLayout';
-import Dashboard from './pages/Dashboard/Dashboard';
-import Login from './pages/Login/Login';
-import Register from './pages/Register/Register';
-import PrivateRoute from './routes/PrivateRoute';
-import AuthLayout from './components/layouts/AuthLayout';
+import AppLayout from './components/layouts/app-layout';
+import AuthLayout from './components/layouts/auth-layout';
+import Login from './pages/auth/login/login';
+import Register from './pages/auth/register/register';
+import Dashboard from './pages/panel/dashboard/dashboard';
+import VehiclesPage from './pages/panel/vehicles/vehicles';
+import PrivateRoute from './routes/private-route';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route element={<AuthLayout />}>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/auth/login" element={<Login />} />
+          <Route path="/auth/register" element={<Register />} />
         </Route>
         <Route element={<AppLayout />}>
           <Route
-            path="/dashboard"
+            path="/panel/dashboard"
             element={
               <PrivateRoute>
                 <Dashboard />
               </PrivateRoute>
             }
           />
+          <Route
+            path="/panel/vehicles"
+            element={
+              <PrivateRoute>
+                <VehiclesPage />
+              </PrivateRoute>
+            }
+          />
           {/* Opcional: ruta 404 */}
           <Route path="*" element={
             <PrivateRoute>
-              <Navigate to="/" replace />
+              <Navigate to="/panel/dashboard" replace />
             </PrivateRoute>
           } />
         </Route>

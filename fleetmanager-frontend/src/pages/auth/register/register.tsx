@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { z } from 'zod';
-import { useAuth } from '../../context/AuthContext';
-import type { RegisterParams } from '../../types/Auth';
+import { useAuth } from '../../../context/AuthContext';
+import type { RegisterParams } from '../../../types/Auth';
 
 const registerSchema = z
 	.object({
@@ -19,7 +19,7 @@ const registerSchema = z
 		path: ['confirmPassword'],
 	});
 
-const Register = () => {
+const RegisterPage = () => {
 	const [firstname, setFirstname] = useState('');
 	const [lastname, setLastname] = useState('');
 	const [companyName, setCompanyName] = useState('');
@@ -66,7 +66,7 @@ const Register = () => {
 			}
 			await register(params);
 			toast.success('Account created successfully');
-			navigate('/login');
+			navigate('/auth/login');
 		} catch (err: any) {
 			toast.error('Failed to register. Please try again.');
 		}
@@ -196,7 +196,7 @@ const Register = () => {
 
 				<div className="mt-6 text-center">
 					<span className="text-gray-600 dark:text-gray-400">Already have an account?</span>{' '}
-					<Link to="/login" className="text-blue-600 hover:underline font-medium">
+					<Link to="/auth/login" className="text-blue-600 hover:underline font-medium">
 						Sign in
 					</Link>
 				</div>
@@ -205,4 +205,4 @@ const Register = () => {
 	);
 };
 
-export default Register;
+export default RegisterPage;

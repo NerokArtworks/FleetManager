@@ -6,11 +6,13 @@ import {
     Wrench,
 } from 'lucide-react';
 import { toast } from 'sonner';
-import DashboardLoader from '../../components/loaders/DashboardLoader';
-import { useAuth } from '../../context/AuthContext';
+import DashboardLoader from '../../../components/loaders/dashboard-loader';
+import { useAuth } from '../../../context/AuthContext';
+import { useVehiclesSummary } from '../../../hooks/use-vehicles';
 
-const Dashboard = () => {
+const DashboardPage = () => {
     const { logout, loading } = useAuth();
+    const { data, isLoading, error } = useVehiclesSummary();
 
     const handleLogout = async () => {
         await logout();
@@ -25,23 +27,27 @@ const Dashboard = () => {
         },
         {
             label: 'On trip',
-            value: 8,
+            value: data?.active,
             icon: <Route className="h-6 w-6 text-green-500" />,
         },
         {
             label: 'Inactives',
-            value: 12,
+            value: data?.inactive,
             icon: <CarFront className="h-6 w-6 text-yellow-500" />,
         },
         {
             label: 'Maintenance',
-            value: 4,
+            value: data?.maintenance,
             icon: <Wrench className="h-6 w-6 text-red-500" />,
         },
     ];
 
-    if (loading) {
+    if (loading || isLoading) {
         return <DashboardLoader />
+    }
+
+    if (error) {
+        return <div>Error fetching summary data</div>
     }
 
     return (
@@ -113,4 +119,4 @@ const Dashboard = () => {
     );
 };
 
-export default Dashboard;
+export default DashboardPage;

@@ -9,7 +9,7 @@ const PrivateRoute = ({ children }: { children: JSX.Element }) => {
         return <div>Loading...</div>; // O un spinner, skeleton, lo que prefieras
     }
 
-    return user ? children : <Navigate to="/login" replace />;
+    return user ? children : <Navigate to="/auth/login" replace />;
 };
 
 export default PrivateRoute;

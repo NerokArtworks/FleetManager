@@ -65,7 +65,15 @@ namespace FleetManager.Infrastructure.Migrations
                     Make = table.Column<string>(type: "text", nullable: false),
                     Model = table.Column<string>(type: "text", nullable: false),
                     Year = table.Column<int>(type: "integer", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    Status = table.Column<int>(type: "integer", nullable: false),
+                    Kilometers = table.Column<int>(type: "integer", nullable: false),
+                    VIN = table.Column<string>(type: "text", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    LastInspectionDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    NextInspectionDue = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    LastUpdated = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    Location = table.Column<string>(type: "text", nullable: true),
+                    Notes = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {

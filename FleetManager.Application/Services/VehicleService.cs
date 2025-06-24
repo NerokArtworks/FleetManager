@@ -28,7 +28,16 @@ namespace FleetManager.Application.Services
                     PlateNumber = v.PlateNumber,
                     Make = v.Make,
                     Model = v.Model,
-                    Year = v.Year
+                    Year = v.Year,
+                    Status = v.Status,
+                    Kilometers = v.Kilometers,
+                    VIN = v.VIN,
+                    CreatedAt = v.CreatedAt,
+                    LastInspectionDate = v.LastInspectionDate,
+                    NextInspectionDue = v.NextInspectionDue,
+                    LastUpdated = v.LastUpdated,
+                    Location = v.Location,
+                    Notes = v.Notes
                 })
                 .ToListAsync();
         }
@@ -44,7 +53,16 @@ namespace FleetManager.Application.Services
                 PlateNumber = vehicle.PlateNumber,
                 Make = vehicle.Make,
                 Model = vehicle.Model,
-                Year = vehicle.Year
+                Year = vehicle.Year,
+                Status = vehicle.Status,
+                Kilometers = vehicle.Kilometers,
+                VIN = vehicle.VIN,
+                CreatedAt = vehicle.CreatedAt,
+                LastInspectionDate = vehicle.LastInspectionDate,
+                NextInspectionDue = vehicle.NextInspectionDue,
+                LastUpdated = vehicle.LastUpdated,
+                Location = vehicle.Location,
+                Notes = vehicle.Notes
             };
         }
 
@@ -55,7 +73,16 @@ namespace FleetManager.Application.Services
                 PlateNumber = request.PlateNumber,
                 Make = request.Make,
                 Model = request.Model,
-                Year = request.Year
+                Year = request.Year,
+                Status = request.Status,
+                Kilometers = request.Kilometers,
+                VIN = request.VIN,
+                CreatedAt = DateTime.UtcNow,
+                LastInspectionDate = request.LastInspectionDate,
+                NextInspectionDue = request.NextInspectionDue,
+                LastUpdated = DateTime.UtcNow,
+                Location = request.Location,
+                Notes = request.Notes
             };
 
             _db.Vehicles.Add(vehicle);
@@ -67,7 +94,16 @@ namespace FleetManager.Application.Services
                 PlateNumber = vehicle.PlateNumber,
                 Make = vehicle.Make,
                 Model = vehicle.Model,
-                Year = vehicle.Year
+                Year = vehicle.Year,
+                Status = vehicle.Status,
+                Kilometers = vehicle.Kilometers,
+                VIN = vehicle.VIN,
+                CreatedAt = vehicle.CreatedAt,
+                LastInspectionDate = vehicle.LastInspectionDate,
+                NextInspectionDue = vehicle.NextInspectionDue,
+                LastUpdated = vehicle.LastUpdated,
+                Location = vehicle.Location,
+                Notes = vehicle.Notes
             };
         }
 
@@ -81,6 +117,14 @@ namespace FleetManager.Application.Services
             vehicle.Make = request.Make;
             vehicle.Model = request.Model;
             vehicle.Year = request.Year;
+            vehicle.Status = request.Status;
+            vehicle.Kilometers = request.Kilometers;
+            vehicle.VIN = request.VIN;
+            vehicle.LastInspectionDate = request.LastInspectionDate;
+            vehicle.NextInspectionDue = request.NextInspectionDue;
+            vehicle.LastUpdated = DateTime.UtcNow;
+            vehicle.Location = request.Location;
+            vehicle.Notes = request.Notes;
 
             await _db.SaveChangesAsync();
         }
@@ -93,6 +137,43 @@ namespace FleetManager.Application.Services
 
             _db.Vehicles.Remove(vehicle);
             await _db.SaveChangesAsync();
+        }
+
+        public async Task<(IEnumerable<VehicleDto> Vehicles, int Total)> GetPagedAsync(int page, int pageSize)
+        {
+            var query = _db.Vehicles.AsNoTracking();
+
+            var total = await query.CountAsync();
+
+            var vehicles = await query
+                .OrderBy(v => v.PlateNumber)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .Select(v => new VehicleDto
+                {
+                    Id = v.Id,
+                    PlateNumber = v.PlateNumber,
+                    Make = v.Make,
+                    Model = v.Model,
+                    Year = v.Year,
+                    Status = v.Status,
+                    Kilometers = v.Kilometers,
+                    VIN = v.VIN,
+                    CreatedAt = v.CreatedAt,
+                    LastInspectionDate = v.LastInspectionDate,
+                    NextInspectionDue = v.NextInspectionDue,
+                    LastUpdated = v.LastUpdated,
+                    Location = v.Location,
+                    Notes = v.Notes
+                })
+                .ToListAsync();
+
+            return (vehicles, total);
+        }
+
+        public async Task<int> CountByStatusAsync(VehicleStatus status)
+        {
+            return await _db.Vehicles.CountAsync(v => v.Status == status);
         }
     }
 }

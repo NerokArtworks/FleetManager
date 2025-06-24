@@ -1,6 +1,9 @@
 using FleetManager.Application.DTOs;
 using FleetManager.Application.Interfaces;
+using FleetManager.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -13,11 +16,23 @@ public class VehicleController : ControllerBase
         _vehicleService = vehicleService;
     }
 
+    // Listado paginado
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetVehicles(int page = 1, int pageSize = 10)
     {
-        var vehicles = await _vehicleService.GetAllAsync();
-        return Ok(vehicles);
+        var (vehicles, total) = await _vehicleService.GetPagedAsync(page, pageSize);
+        return Ok(new { data = vehicles, total, page, pageSize });
+    }
+
+    // Resumen de vehículos por estado usando enum para evitar strings mágicas
+    [HttpGet("summary")]
+    public async Task<IActionResult> GetVehiclesSummary()
+    {
+        var active = await _vehicleService.CountByStatusAsync(VehicleStatus.Active);
+        var inactive = await _vehicleService.CountByStatusAsync(VehicleStatus.Inactive);
+        var maintenance = await _vehicleService.CountByStatusAsync(VehicleStatus.Maintenance);
+
+        return Ok(new { active, inactive, maintenance });
     }
 
     [HttpGet("{id:guid}")]
@@ -29,7 +44,7 @@ public class VehicleController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(CreateVehicleRequest request)
+    public async Task<IActionResult> Create([FromBody] CreateVehicleRequest request)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
@@ -39,19 +54,35 @@ public class VehicleController : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
-    public async Task<IActionResult> Update(Guid id, CreateVehicleRequest request)
+    public async Task<IActionResult> Update(Guid id, [FromBody] CreateVehicleRequest request)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
-        await _vehicleService.UpdateAsync(id, request);
+        try
+        {
+            await _vehicleService.UpdateAsync(id, request);
+        }
+        catch (KeyNotFoundException)
+        {
+            return NotFound();
+        }
+
         return NoContent();
     }
 
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        await _vehicleService.DeleteAsync(id);
+        try
+        {
+            await _vehicleService.DeleteAsync(id);
+        }
+        catch (KeyNotFoundException)
+        {
+            return NotFound();
+        }
+
         return NoContent();
     }
 }

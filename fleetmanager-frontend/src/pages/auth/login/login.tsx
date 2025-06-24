@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
-import { useAuth } from '../../context/AuthContext';
-import type { LoginParams } from '../../types/Auth';
+import { useAuth } from '../../../context/AuthContext';
+import type { LoginParams } from '../../../types/Auth';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -12,7 +12,7 @@ const Login = () => {
 
     useEffect(() => {
         if (!loading && user) {
-            navigate('/dashboard', { replace: true });
+            navigate('/panel/dashboard', { replace: true });
         }
     }, [loading, user, navigate]);
 
@@ -22,7 +22,7 @@ const Login = () => {
             const params: LoginParams = { email, password }
             await login(params);
             toast.success('Successfully signed in');
-            navigate('/dashboard');
+            navigate('/panel/dashboard');
         } catch (err: any) {
             if (err.response?.status === 401) {
                 toast.error('Invalid credentials');
@@ -85,7 +85,7 @@ const Login = () => {
                 <div className="mt-6 text-center">
                     <span className="text-gray-600 dark:text-gray-400">Don't have an account?</span>{' '}
                     <Link
-                        to="/register"
+                        to="/auth/register"
                         className="text-blue-600 hover:underline font-medium"
                     >
                         Create one
