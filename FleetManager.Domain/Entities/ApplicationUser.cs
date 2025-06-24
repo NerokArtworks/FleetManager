@@ -4,8 +4,8 @@ namespace FleetManager.Domain.Entities;
 
 public class ApplicationUser : IdentityUser
 {
-    public string FirstName { get; set; } = string.Empty;
-    public string LastName { get; set; } = string.Empty;
+    public required string FirstName { get; set; }
+    public required string LastName { get; set; }
 
     public string? CompanyName { get; set; }
     public bool IsActive { get; set; } = true;

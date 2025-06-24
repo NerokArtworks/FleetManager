@@ -17,8 +17,10 @@ const Sidebar = () => {
             {/* Header */}
             <div
                 className={cn(
-                    'flex items-center px-2 py-4',
-                    isExpanded ? 'justify-between' : 'justify-center'
+                    'flex items-center py-4 transition-all',
+                    isExpanded 
+                        ? 'justify-between px-4' 
+                        : 'justify-center px-2'
                 )}
             >
                 <span
@@ -46,7 +48,13 @@ const Sidebar = () => {
             </div>
 
             {/* Navigation */}
-            <nav className="flex-1 flex flex-col gap-1 px-2">
+            {/* <nav className="flex-1 flex flex-col gap-1 px-2"> */}
+            <nav className={cn(
+                'flex-1 flex flex-col gap-1 transition-all',
+                isExpanded
+                    ? 'px-4'
+                    : 'px-2'
+            )}>
                 <SidebarItem to="/dashboard" icon={Home} label="Dashboard" isExpanded={isExpanded} />
                 <SidebarItem to="/vehicles" icon={Truck} label="Vehicles" isExpanded={isExpanded} />
                 <SidebarItem to="/settings" icon={Settings} label="Settings" isExpanded={isExpanded} />

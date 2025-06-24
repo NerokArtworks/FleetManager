@@ -1,38 +1,48 @@
-import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 import api from '../api/axios';
-
-interface AuthContextType {
-    user: { email: string } | null;
-    loading: boolean;
-    login: (email: string, password: string) => Promise<void>;
-    logout: () => Promise<void>;
-}
+import type { AuthContextType, LoginParams, RegisterParams, User } from '../types/Auth';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-    const [user, setUser] = useState<{ email: string } | null>(null);
+    const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Al montar, verificar si está autenticado llamando a backend
         const fetchUser = async () => {
-            await api.get('/auth/me')
-                .then(res => setUser(res.data))
-                .catch(() => setUser(null))
-                .finally(() => setLoading(false));
-        }
+            try {
+                const res = await api.get('/auth/me');
+                setUser(res.data);
+            } catch {
+                setUser(null);
+            } finally {
+                setLoading(false);
+            }
+        };
 
-        fetchUser()
+        fetchUser();
     }, []);
 
-    const login = async (email: string, password: string) => {
-        console.log(email, password)
-        await api.post('/auth/login', { email, password });
-        // Si no lanza error, significa que cookie está puesta
-        // Obtener info usuario
+    const login = async ( LoginParams: LoginParams) => {
+        const params = {
+            Email: LoginParams.email,
+            Password: LoginParams.password
+        }
+        await api.post('/auth/login', params);
         const res = await api.get('/auth/me');
         setUser(res.data);
+    };
+
+    const register = async (registerParams: RegisterParams) => {
+        const params = {
+            FirstName: registerParams.firstname,
+            LastName: registerParams.lastname,
+            CompanyName: registerParams.companyName,
+            Email: registerParams.email,
+            Password: registerParams.password,
+        };
+        console.log(params)
+        await api.post('/auth/register', params);
     };
 
     const logout = async () => {
@@ -41,7 +51,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ user, loading, login, logout }}>
+        <AuthContext.Provider value={{ user, loading, login, register, logout }}>
             {children}
         </AuthContext.Provider>
     );

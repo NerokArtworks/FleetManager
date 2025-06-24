@@ -5,11 +5,17 @@ import {
     Route,
     Wrench,
 } from 'lucide-react';
+import { toast } from 'sonner';
 import DashboardLoader from '../../components/loaders/DashboardLoader';
 import { useAuth } from '../../context/AuthContext';
 
 const Dashboard = () => {
     const { logout, loading } = useAuth();
+
+    const handleLogout = async () => {
+        await logout();
+        toast.success('Successfully logged out');
+    }
 
     const summary = [
         {
@@ -44,7 +50,7 @@ const Dashboard = () => {
             <div className="flex justify-between items-center mb-8">
                 <h1 className="text-3xl font-semibold">Fleet Panel</h1>
                 <button
-                    onClick={logout}
+                    onClick={handleLogout}
                     className="flex items-center gap-2 bg-destructive text-white px-5 py-2 rounded-xl hover:bg-destructive/80 transition"
                 >
                     <LogOut className="h-4 w-4" />

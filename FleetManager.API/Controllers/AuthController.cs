@@ -24,7 +24,20 @@ public class AuthController : ControllerBase
     [HttpPost("register")]
     public async Task<IActionResult> Register(RegisterRequest model)
     {
-        var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var user = new ApplicationUser
+        {
+            UserName = model.Email,
+            Email = model.Email,
+            FirstName = model.FirstName,
+            LastName = model.LastName,
+            CompanyName = model.CompanyName
+        };
+
         var result = await _userManager.CreateAsync(user, model.Password);
 
         if (!result.Succeeded) return BadRequest(result.Errors);
@@ -94,7 +107,13 @@ public class AuthController : ControllerBase
             return Unauthorized();
 
         // Devolver info mínima (sin datos sensibles)
-        return Ok(new { email = user.Email });
+        return Ok(new
+        {
+            email = user.Email,
+            firstname = user.FirstName,
+            lastname = user.LastName,
+            companyName = user.CompanyName
+        });
     }
 
 
