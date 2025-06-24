@@ -10,14 +10,14 @@ const Sidebar = () => {
         <aside
             style={{ willChange: 'width' }}
             className={cn(
-                'h-full border-r border-gray-200 shadow bg-white transition-[width] duration-300 ease-in-out flex flex-col',
+                'h-full border-r border-gray-200 rounded-tr-2xl shadow bg-white transition-[width] duration-300 ease-in-out flex flex-col',
                 isExpanded ? 'w-64' : 'w-16'
             )}
         >
             {/* Header */}
             <div
                 className={cn(
-                    'flex items-center py-4 transition-all',
+                    'flex items-center pt-3 pb-4 transition-all',
                     isExpanded 
                         ? 'justify-between px-4' 
                         : 'justify-center px-2'
@@ -36,14 +36,15 @@ const Sidebar = () => {
 
                 <button
                     onClick={() => setIsExpanded((prev) => !prev)}
-                    className="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-md text-gray-500 hover:text-gray-700 transition-colors duration-300"
+                    className="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-md rounded-tr-xl text-gray-500 hover:text-gray-700 transition-colors duration-300"
                     aria-label={isExpanded ? 'Collapse sidebar' : 'Expand sidebar'}
                 >
-                    {isExpanded ? (
-                        <ChevronLeft className="w-5 h-5" />
-                    ) : (
-                        <ChevronRight className="w-5 h-5" />
-                    )}
+                    <ChevronLeft className={cn(
+                        'w-5 h-5 transition-transform duration-300 ease-out',
+                        isExpanded
+                            ? ''
+                            : 'rotate-180'
+                    )} />
                 </button>
             </div>
 

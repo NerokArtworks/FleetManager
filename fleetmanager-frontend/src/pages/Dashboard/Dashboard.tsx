@@ -51,7 +51,7 @@ const Dashboard = () => {
                 <h1 className="text-3xl font-semibold">Fleet Panel</h1>
                 <button
                     onClick={handleLogout}
-                    className="flex items-center gap-2 bg-destructive text-white px-5 py-2 rounded-xl hover:bg-destructive/80 transition"
+                    className="flex items-center gap-2 bg-destructive text-white px-5 py-2 rounded hover:bg-destructive/80 transition"
                 >
                     <LogOut className="h-4 w-4" />
                     Log out

@@ -33,7 +33,7 @@ a:hover {
 }
 
 button {
-  @apply rounded border border-transparent text-base font-medium bg-blue-700 text-white cursor-pointer transition-colors duration-200;
+  @apply border border-transparent text-base font-medium bg-blue-700 text-white cursor-pointer transition-colors duration-200;
 }
 
 button:hover {
