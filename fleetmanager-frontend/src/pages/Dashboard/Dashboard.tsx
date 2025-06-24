@@ -45,7 +45,7 @@ const Dashboard = () => {
     }
 
     return (
-        <div className="min-h-screen bg-muted p-8 text-foreground">
+        <div className="w-full bg-muted p-4 sm:p-8 text-foreground">
             {/* Header */}
             <div className="flex justify-between items-center mb-8">
                 <h1 className="text-3xl font-semibold">Fleet Panel</h1>

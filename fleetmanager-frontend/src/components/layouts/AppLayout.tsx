@@ -3,7 +3,7 @@ import Sidebar from '../ui/Sidebar';
 
 const AppLayout = () => {
     return (
-        <div className="min-w-screen flex h-screen bg-gray-50 text-gray-800">
+        <div className="max-w-dvw min-w-dvw flex h-dvh bg-gray-50 text-gray-800">
             <Sidebar />
 
             {/* Main content */}
