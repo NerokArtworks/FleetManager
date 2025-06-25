@@ -9,10 +9,26 @@ export interface Vehicle {
 	status: VehicleStatus;
 	kilometers: number;
 	vin: string;
-	createdAt: string; // ISO date string
+	createdAt: string;
 	lastInspectionDate?: string;
 	nextInspectionDue?: string;
 	lastUpdated?: string;
 	location?: string;
 	notes?: string;
+}
+
+export interface VehiclesSummary {
+	total: number;
+	active: number;
+	inactive: number;
+	maintenance: number;
+}
+
+export interface VehicleListFilters {
+	page: number;
+	pageSize?: number;
+	status?: VehicleStatus;
+	search?: string;
+	sortBy?: string;
+	sortDesc?: boolean;
 }

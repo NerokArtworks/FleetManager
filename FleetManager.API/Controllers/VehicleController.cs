@@ -1,9 +1,8 @@
 using FleetManager.Application.DTOs;
 using FleetManager.Application.Interfaces;
 using FleetManager.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Threading.Tasks;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -17,22 +16,35 @@ public class VehicleController : ControllerBase
     }
 
     // Listado paginado
+    [Authorize]
     [HttpGet]
-    public async Task<IActionResult> GetVehicles(int page = 1, int pageSize = 10)
+    public async Task<IActionResult> GetVehicles(
+        int page = 1,
+        int pageSize = 10,
+        VehicleStatus? status = null,
+        string? search = null,
+        string? sortBy = null,
+        bool sortDesc = false)
     {
-        var (vehicles, total) = await _vehicleService.GetPagedAsync(page, pageSize);
+        if (page < 1) page = 1;
+        if (pageSize < 1 || pageSize > 100) pageSize = 10;
+
+        var (vehicles, total) = await _vehicleService.GetPagedAsync(page, pageSize, status, search, sortBy, sortDesc);
+
         return Ok(new { data = vehicles, total, page, pageSize });
     }
 
     // Resumen de vehículos por estado usando enum para evitar strings mágicas
+    [Authorize]
     [HttpGet("summary")]
     public async Task<IActionResult> GetVehiclesSummary()
     {
+        var total = await _vehicleService.CountAll();
         var active = await _vehicleService.CountByStatusAsync(VehicleStatus.Active);
         var inactive = await _vehicleService.CountByStatusAsync(VehicleStatus.Inactive);
         var maintenance = await _vehicleService.CountByStatusAsync(VehicleStatus.Maintenance);
 
-        return Ok(new { active, inactive, maintenance });
+        return Ok(new { total, active, inactive, maintenance });
     }
 
     [HttpGet("{id:guid}")]
@@ -43,6 +55,7 @@ public class VehicleController : ControllerBase
         return Ok(vehicle);
     }
 
+    [Authorize]
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateVehicleRequest request)
     {
@@ -53,6 +66,7 @@ public class VehicleController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
     }
 
+    [Authorize]
     [HttpPut("{id:guid}")]
     public async Task<IActionResult> Update(Guid id, [FromBody] CreateVehicleRequest request)
     {
@@ -71,6 +85,7 @@ public class VehicleController : ControllerBase
         return NoContent();
     }
 
+    [Authorize]
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(Guid id)
     {

@@ -2,6 +2,7 @@ import { ChevronLeft, Home, Settings, Truck } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '../../lib/utils';
 import SidebarItem from './sidebar-item';
+import Button from './button';
 
 const Sidebar = () => {
     const [isExpanded, setIsExpanded] = useState(false);
@@ -10,7 +11,7 @@ const Sidebar = () => {
         <aside
             style={{ willChange: 'width' }}
             className={cn(
-                'h-full border-r border-gray-200 rounded-tr-2xl shadow bg-white transition-[width] duration-300 ease-in-out flex flex-col',
+                'h-full border-r border-gray-200 dark:border-gray-700 rounded-tr-2xl shadow bg-white dark:bg-gray-800 transition-[width] duration-300 ease-in-out flex flex-col',
                 isExpanded ? 'w-64' : 'w-16'
             )}
         >
@@ -34,9 +35,10 @@ const Sidebar = () => {
                     FleetManager
                 </span>
 
-                <button
+                <Button
+                    variant='primary'
                     onClick={() => setIsExpanded((prev) => !prev)}
-                    className="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-md rounded-tr-xl text-gray-500 hover:text-gray-700 transition-colors duration-300"
+                    className="flex-shrink-0 w-10 h-10 px-0 py-0 flex items-center justify-center rounded-md rounded-tr-xl transition-colors duration-300"
                     aria-label={isExpanded ? 'Collapse sidebar' : 'Expand sidebar'}
                 >
                     <ChevronLeft className={cn(
@@ -45,7 +47,7 @@ const Sidebar = () => {
                             ? ''
                             : 'rotate-180'
                     )} />
-                </button>
+                </Button>
             </div>
 
             {/* Navigation */}

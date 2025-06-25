@@ -1,10 +1,10 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import AppLayout from './components/layouts/app-layout';
 import AuthLayout from './components/layouts/auth-layout';
-import Login from './pages/auth/login/login';
-import Register from './pages/auth/register/register';
-import Dashboard from './pages/panel/dashboard/dashboard';
-import VehiclesPage from './pages/panel/vehicles/vehicles';
+import Login from './pages/auth/login/page';
+import Register from './pages/auth/register/page';
+import Dashboard from './pages/panel/dashboard/page';
+import VehiclesPage from './pages/panel/vehicles/page';
 import PrivateRoute from './routes/private-route';
 
 function App() {

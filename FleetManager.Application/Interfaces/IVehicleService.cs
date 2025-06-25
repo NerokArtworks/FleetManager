@@ -14,7 +14,16 @@ namespace FleetManager.Application.Interfaces
         Task UpdateAsync(Guid id, CreateVehicleRequest request);
         Task DeleteAsync(Guid id);
 
-        Task<(IEnumerable<VehicleDto> Vehicles, int Total)> GetPagedAsync(int page, int pageSize);
+        Task<(IEnumerable<VehicleDto> Vehicles, int Total)> GetPagedAsync(
+            int page,
+            int pageSize,
+            VehicleStatus? status,
+            string? search,
+            string? sortBy,
+            bool sortDesc
+        );
+
         Task<int> CountByStatusAsync(VehicleStatus status);
+        Task<int> CountAll();
     }
 }

@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { useAuth } from '../../../context/AuthContext';
 import type { LoginParams } from '../../../types/Auth';
+import Button from '../../../components/ui/button';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -40,7 +41,7 @@ const Login = () => {
         );
 
     return (
-        <div className="w-full flex items-center justify-center bg-gray-50 px-4 dark:bg-gray-900">
+        <div className="w-full flex items-center justify-center px-4">
             <form
                 onSubmit={handleSubmit}
                 className="bg-white dark:bg-gray-800 p-10 rounded-2xl shadow-md w-full max-w-md"
@@ -74,12 +75,14 @@ const Login = () => {
                         aria-label="password"
                     />
 
-                    <button
+                    <Button
+                        variant="primary"
                         type="submit"
-                        className="w-full py-3 rounded-md bg-blue-700 hover:bg-blue-600 text-white font-semibold transition-colors focus:outline-none focus:ring-4 focus:ring-blue-400"
+                        className="w-full py-3 rounded-md font-semibold"
+                        size='lg'
                     >
                         Sign in
-                    </button>
+                    </Button>
                 </div>
 
                 <div className="mt-6 text-center">

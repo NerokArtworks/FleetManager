@@ -13,7 +13,7 @@
 }
 
 body {
-  @apply m-0 min-w-[320px] min-h-dvh font-sans leading-relaxed font-normal text-gray-900 bg-white dark:text-gray-100 dark:bg-gray-900;
+  @apply m-0 min-w-[320px] min-h-dvh font-sans leading-relaxed font-normal text-gray-900 bg-white dark:text-gray-100 dark:bg-gray-800;
 }
 
 h1 {
@@ -33,11 +33,7 @@ a:hover {
 }
 
 button {
-  @apply border border-transparent text-base font-medium bg-blue-700 text-white cursor-pointer transition-colors duration-200;
-}
-
-button:hover {
-  @apply bg-blue-600;
+  @apply border border-transparent text-base font-medium cursor-pointer transition-colors duration-200;
 }
 
 button:focus,
@@ -56,12 +52,29 @@ button:focus-visible {
   a:hover {
     @apply text-blue-500;
   }
+}
 
-  button {
-    @apply bg-blue-700 text-white;
-  }
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
-  button:hover {
-    @apply bg-blue-600;
+.animate-fade-in {
+  animation: fade-in 0.2s ease-out forwards;
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
   }
+  25% {
+    transform: translateX(-2px);
+  }
+  75% {
+    transform: translateX(2px);
+  }
+}
+
+.animate-shake:hover {
+  animation: shake 0.3s ease-in-out;
 }

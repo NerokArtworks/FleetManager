@@ -4,6 +4,7 @@ import { toast } from 'sonner';
 import { z } from 'zod';
 import { useAuth } from '../../../context/AuthContext';
 import type { RegisterParams } from '../../../types/Auth';
+import Button from '../../../components/ui/button';
 
 const registerSchema = z
 	.object({
@@ -80,7 +81,7 @@ const RegisterPage = () => {
 		);
 
 	return (
-		<div className="w-full min-h-screen flex items-center justify-center bg-gray-50 px-4 dark:bg-gray-900">
+		<div className="w-full min-h-screen flex items-center justify-center px-4">
 			<form
 				onSubmit={handleSubmit}
 				className="bg-white dark:bg-gray-800 p-10 rounded-2xl shadow-md w-full max-w-md"
@@ -186,12 +187,14 @@ const RegisterPage = () => {
 						)}
 					</div>
 
-					<button
+					<Button
+                        variant="primary"
 						type="submit"
-						className="w-full py-3 rounded-md bg-blue-700 hover:bg-blue-600 text-white font-semibold transition-colors focus:outline-none focus:ring-4 focus:ring-blue-400"
+						className="w-full rounded-md font-semibold"
+						size='lg'
 					>
 						Register
-					</button>
+					</Button>
 				</div>
 
 				<div className="mt-6 text-center">
