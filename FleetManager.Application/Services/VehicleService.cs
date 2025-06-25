@@ -24,6 +24,41 @@ namespace FleetManager.Application.Services
             return _mapper.Map<List<VehicleDto>>(vehicles);
         }
 
+        public async Task<IEnumerable<VehicleDto>> GetAllAsync(
+            VehicleStatus? status = null,
+            string? search = null,
+            string? sortBy = null,
+            bool sortDesc = false)
+        {
+            var query = _db.Vehicles.AsQueryable();
+
+            if (status.HasValue)
+            {
+                query = query.Where(v => v.Status == status.Value);
+            }
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                query = query.Where(v =>
+                    v.PlateNumber.Contains(search) ||
+                    v.Make.Contains(search) ||
+                    v.Model.Contains(search));
+            }
+
+            query = sortBy?.ToLower() switch
+            {
+                "plate" => sortDesc ? query.OrderByDescending(v => v.PlateNumber) : query.OrderBy(v => v.PlateNumber),
+                "model" => sortDesc ? query.OrderByDescending(v => v.Model) : query.OrderBy(v => v.Model),
+                "year" => sortDesc ? query.OrderByDescending(v => v.Year) : query.OrderBy(v => v.Year),
+                "status" => sortDesc ? query.OrderByDescending(v => v.Status) : query.OrderBy(v => v.Status),
+                _ => query.OrderBy(v => v.PlateNumber)
+            };
+
+            var vehicles = await query.ToListAsync();
+
+            return _mapper.Map<List<VehicleDto>>(vehicles);
+        }
+
         public async Task<VehicleDto?> GetByIdAsync(Guid id)
         {
             var vehicle = await _db.Vehicles.FindAsync(id);
