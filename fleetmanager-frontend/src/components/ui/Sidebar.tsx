@@ -51,7 +51,6 @@ const Sidebar = () => {
             </div>
 
             {/* Navigation */}
-            {/* <nav className="flex-1 flex flex-col gap-1 px-2"> */}
             <nav className={cn(
                 'flex-1 flex flex-col gap-1 transition-all',
                 isExpanded

@@ -42,12 +42,6 @@ const DashboardPage = () => {
     useEffect(() => {
         const summary = [
             {
-                label: "Total",
-                count: summaryData?.total ?? 0,
-                icon: <CarFront className="w-5 h-5 text-green-500" />,
-                color: "#155dfc",
-            },
-            {
                 label: "Active",
                 count: summaryData?.active ?? 0,
                 icon: <CarFront className="w-5 h-5 text-green-500" />,
@@ -111,12 +105,6 @@ const DashboardPage = () => {
                 <VehicleStatusChart data={chartData} />
             </div>
 
-            {/* Aquí podrías añadir más gráficas en el futuro */}
-            {/* Por ejemplo:
-                - Mantenimientos por mes
-                - Distancia recorrida por vehículo
-                - Distribución por ciudad
-            */}
             <VehicleBarChart data={barChartData} title="Monthly Maintenance Count" />
         </div>
     );

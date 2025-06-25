@@ -30,6 +30,6 @@ export const useVehiclesInfiniteList = ({
             return undefined;
         },
         staleTime: 5 * 60 * 1000,
-        initialPageParam: 1,  // <--- Aquí el valor inicial del pageParam
+        initialPageParam: 1,
     });
 };

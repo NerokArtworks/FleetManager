@@ -1,6 +1,5 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { ChevronDown, Plus } from "lucide-react";
-import React from "react";
 import Button from "../../components/ui/button";
 
 type VehiclesToolbarProps = {
@@ -9,11 +8,11 @@ type VehiclesToolbarProps = {
     onPrint: () => void;
 };
 
-const VehiclesToolbar: React.FC<VehiclesToolbarProps> = ({
+const VehiclesToolbar = ({
     onCreate,
     onExportCSV,
     onPrint,
-}) => {
+}: VehiclesToolbarProps) => {
     return (
         <div className="flex justify-between items-center">
             <h1 className="text-2xl font-semibold text-gray-800 dark:text-gray-50">Fleet Vehicles</h1>

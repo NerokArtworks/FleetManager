@@ -1,4 +1,5 @@
-export type VehicleStatus = "Active" | "Inactive" | "Maintenance" | "Retired";
+export const vehicleStatuses = ["Active", "Inactive", "Maintenance", "Retired"] as const;
+export type VehicleStatus = typeof vehicleStatuses[number];
 
 export interface Vehicle {
 	id: string;

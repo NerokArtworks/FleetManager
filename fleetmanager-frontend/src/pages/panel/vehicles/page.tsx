@@ -6,26 +6,42 @@ import {
 import { useState } from "react";
 import { toast } from "sonner";
 import DashboardLoader from "../../../components/loaders/dashboard-loader";
+import { ModalWrapper } from "../../../components/modal-wrapper";
 import Button from "../../../components/ui/button";
+import { CreateVehicleForm } from "../../../components/vehicles/create-vehicle-form";
 import VehicleList from "../../../components/vehicles/vehicle-list";
 import VehicleSummaryCard from "../../../components/vehicles/vehicle-summary-card";
 import VehiclesFilters from "../../../components/vehicles/vehicles-filters";
 import VehiclesToolbar from "../../../components/vehicles/vehicles-toolbar";
 import { useAuth } from "../../../context/AuthContext";
+import { useCreateVehicle } from "../../../hooks/use-create-vehicle";
 import { useExportVehicles } from "../../../hooks/use-export-vehicles";
+import { useVehicleFilters } from "../../../hooks/use-vehicle-filters";
 import { useVehiclesInfiniteList } from "../../../hooks/use-vehicles-infinite-list";
-import type { Vehicle, VehicleStatus } from "../../../types/Vehicle";
+import { vehicleStatuses, type Vehicle } from "../../../types/Vehicle";
 
 const VehiclesPage = () => {
 	const { loading } = useAuth();
 	const pageSize = 6;
-	
-	const [statusFilter, setStatusFilter] = useState<VehicleStatus | "">("");
-	const [search, setSearch] = useState("");
-	const [sortBy, setSortBy] = useState("createdAt");
-	const [sortDesc, setSortDesc] = useState(true);
-	const { exportCSV } = useExportVehicles(statusFilter, search, sortBy, sortDesc);
-	
+
+	const {
+		filters,
+		statusFilter,
+		setStatusFilter,
+		search,
+		setSearch,
+		sortBy,
+		setSortBy,
+		sortDesc,
+		setSortDesc,
+	} = useVehicleFilters();
+
+	const { createVehicle } = useCreateVehicle(filters, () => setModalOpen(false));
+	const { exportCSV } = useExportVehicles(filters);
+
+	const [modalOpen, setModalOpen] = useState(false);
+	const closeCreateModal = () => setModalOpen(false);
+
 	const {
 		data,
 		fetchNextPage,
@@ -34,10 +50,7 @@ const VehiclesPage = () => {
 		isLoading,
 		error,
 	} = useVehiclesInfiniteList({
-		status: statusFilter || undefined,
-		search: search || undefined,
-		sortBy,
-		sortDesc,
+		...filters,
 		pageSize,
 	});
 
@@ -47,31 +60,30 @@ const VehiclesPage = () => {
 	const statusSummary = [
 		{
 			label: "Active",
-			count: vehicles.filter((v) => v.status === 0).length,
+			count: vehicles.filter((v) => v.status === vehicleStatuses[0]).length,
 			icon: <CarFront className="w-5 h-5 text-green-500" />,
 			color: "text-green-600",
 		},
 		{
 			label: "Inactive",
-			count: vehicles.filter((v) => v.status === 1).length,
+			count: vehicles.filter((v) => v.status === vehicleStatuses[1]).length,
 			icon: <Route className="w-5 h-5 text-yellow-500" />,
 			color: "text-yellow-600",
 		},
 		{
 			label: "Maintenance",
-			count: vehicles.filter((v) => v.status === 2).length,
+			count: vehicles.filter((v) => v.status === vehicleStatuses[2]).length,
 			icon: <Wrench className="w-5 h-5 text-red-500" />,
 			color: "text-red-600",
 		},
 	];
 
-	const handleCreate = () => console.log("Create vehicle");
-	const handleEdit = (v: Vehicle) => console.log("Edit", v);
-	const handleDelete = (v: Vehicle) => {
-		// Idealmente deberías hacer refetch o mutación
-		// Aquí una forma rápida: filtrar localmente
-		// Pero cuidado porque al cargar siguiente página puede reaparecer
+	const handleCreate = () => {
+		setModalOpen(true)
 	};
+	const handleEdit = (v: Vehicle) => console.log("Edit", v);
+	const handleDelete = (v: Vehicle) => console.log("Delete", v);
+
 	const handleExportCSV = async () => {
 		try {
 			// TODO EXPORT CSV
@@ -135,6 +147,15 @@ const VehiclesPage = () => {
 			)}
 
 			{isLoading && <p className="mt-2 text-sm text-gray-500">Actualizando datos...</p>}
+
+			{modalOpen && (
+				<ModalWrapper onClose={closeCreateModal}>
+					<CreateVehicleForm
+						onClose={closeCreateModal}
+						onSubmit={createVehicle}
+					/>
+				</ModalWrapper>
+			)}
 		</div>
 	);
 };

@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { z } from 'zod';
+import Button from '../../../components/ui/button';
 import { useAuth } from '../../../context/AuthContext';
 import type { RegisterParams } from '../../../types/Auth';
-import Button from '../../../components/ui/button';
 
 const registerSchema = z
 	.object({

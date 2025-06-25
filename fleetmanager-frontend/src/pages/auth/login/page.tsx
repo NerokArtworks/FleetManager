@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
+import Button from '../../../components/ui/button';
 import { useAuth } from '../../../context/AuthContext';
 import type { LoginParams } from '../../../types/Auth';
-import Button from '../../../components/ui/button';
 
 const Login = () => {
     const [email, setEmail] = useState('');

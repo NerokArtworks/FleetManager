@@ -1,5 +1,5 @@
 import { Pencil, Trash2 } from "lucide-react";
-import type { Vehicle } from "../../types/Vehicle";
+import { vehicleStatuses, type Vehicle } from "../../types/Vehicle";
 import { Badge } from "../ui/badge";
 import Button from "../ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
@@ -31,7 +31,7 @@ const VehicleCard = ({ vehicle, onEdit, onDelete }: Props) => {
 			</td>
 
 			<td className="bg-white dark:bg-gray-800 align-middle text-center">
-				<Badge variant={vehicle.status === 0 ? "default" : "secondary"}>
+				<Badge variant={vehicle.status === vehicleStatuses[0] ? "default" : "secondary"}>
 					{vehicle.status}
 				</Badge>
 			</td>

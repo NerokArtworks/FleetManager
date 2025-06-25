@@ -1,22 +1,17 @@
 import api from '../api/axios';
 import type { VehicleStatus } from '../types/Vehicle';
 
-export const useExportVehicles = (
-    statusFilter: VehicleStatus | "",
-    search: string,
-    sortBy: string,
-    sortDesc: boolean
-) => {
-    const exportCSV = async () => {
-        const params = {
-            status: statusFilter || undefined,
-            search: search || undefined,
-            sortBy,
-            sortDesc,
-        };
+interface ExportFilters {
+    status?: VehicleStatus;
+    search?: string;
+    sortBy: string;
+    sortDesc: boolean;
+}
 
+export const useExportVehicles = (filters: ExportFilters) => {
+    const exportCSV = async () => {
         const response = await api.get('/vehicle/export', {
-            params,
+            params: filters,
             responseType: 'blob',
         });
 
@@ -30,7 +25,7 @@ export const useExportVehicles = (
         document.body.removeChild(link);
         URL.revokeObjectURL(href);
 
-        return true
+        return true;
     };
 
     return { exportCSV };

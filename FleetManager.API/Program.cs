@@ -1,12 +1,14 @@
 using FleetManager.Infrastructure.Data;
 using FleetManager.Application.Interfaces;
 using FleetManager.Application.Services;
+using FleetManager.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
-using FleetManager.Domain.Entities;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +16,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<IVehicleService, VehicleService>();
 builder.Services.AddScoped<IVehicleExportService, VehicleExportService>();
 builder.Services.AddAutoMapper(typeof(VehicleProfile));
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+        options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+    });
 
 builder.Services.AddCors(options =>
 {

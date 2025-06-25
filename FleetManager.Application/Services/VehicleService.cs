@@ -70,6 +70,13 @@ namespace FleetManager.Application.Services
         public async Task<VehicleDto> CreateAsync(CreateVehicleRequest request)
         {
             var vehicle = _mapper.Map<Vehicle>(request);
+            
+            if (vehicle.LastInspectionDate.HasValue)
+                vehicle.LastInspectionDate = DateTime.SpecifyKind(vehicle.LastInspectionDate.Value, DateTimeKind.Utc);
+
+            if (vehicle.NextInspectionDue.HasValue)
+                vehicle.NextInspectionDue = DateTime.SpecifyKind(vehicle.NextInspectionDue.Value, DateTimeKind.Utc);
+
             vehicle.CreatedAt = DateTime.UtcNow;
             vehicle.LastUpdated = DateTime.UtcNow;
 
