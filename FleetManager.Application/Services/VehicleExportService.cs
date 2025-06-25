@@ -1,3 +1,4 @@
+using System.Reflection;
 using System.Text;
 using FleetManager.Application.DTOs;
 using FleetManager.Application.Interfaces;
@@ -7,12 +8,25 @@ public class VehicleExportService : IVehicleExportService
     public string GenerateCsv(IEnumerable<VehicleDto> vehicles)
     {
         var sb = new StringBuilder();
-        sb.AppendLine("Id,Model,Plate,Status,CreatedAt");
+
+        var type = typeof(VehicleDto);
+        var properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+
+        // Cabecera
+        sb.AppendLine(string.Join(",", properties.Select(p => p.Name)));
+
+        // Filas
         foreach (var v in vehicles)
         {
-            var line = $"{v.Id},{EscapeCsv(v.Model)},{EscapeCsv(v.PlateNumber)},{v.Status},{v.CreatedAt:yyyy-MM-dd}";
-            sb.AppendLine(line);
+            var values = properties.Select(p =>
+            {
+                var value = p.GetValue(v);
+                return EscapeCsv(value?.ToString() ?? "");
+            });
+
+            sb.AppendLine(string.Join(",", values));
         }
+
         return sb.ToString();
     }
 

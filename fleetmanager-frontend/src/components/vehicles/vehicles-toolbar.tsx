@@ -46,14 +46,14 @@ const VehiclesToolbar: React.FC<VehiclesToolbarProps> = ({
                                 className="cursor-pointer select-none rounded-md px-3 py-2 text-sm text-gray-700 dark:text-gray-200 outline-none focus:bg-gray-100 dark:focus:bg-gray-700"
                                 onSelect={() => onExportCSV()}
                             >
-                                Exportar a CSV
+                                Export to CSV
                             </DropdownMenu.Item>
 
                             <DropdownMenu.Item
                                 className="cursor-pointer select-none rounded-md px-3 py-2 text-sm text-gray-700 dark:text-gray-200 outline-none focus:bg-gray-100 dark:focus:bg-gray-700"
                                 onSelect={() => onPrint()}
                             >
-                                Imprimir
+                                Print
                             </DropdownMenu.Item>
                         </DropdownMenu.Content>
                     </DropdownMenu.Portal>

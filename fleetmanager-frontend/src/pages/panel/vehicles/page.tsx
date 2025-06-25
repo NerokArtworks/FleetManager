@@ -4,6 +4,7 @@ import {
 	Wrench
 } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 import DashboardLoader from "../../../components/loaders/dashboard-loader";
 import Button from "../../../components/ui/button";
 import VehicleList from "../../../components/vehicles/vehicle-list";
@@ -11,20 +12,20 @@ import VehicleSummaryCard from "../../../components/vehicles/vehicle-summary-car
 import VehiclesFilters from "../../../components/vehicles/vehicles-filters";
 import VehiclesToolbar from "../../../components/vehicles/vehicles-toolbar";
 import { useAuth } from "../../../context/AuthContext";
+import { useExportVehicles } from "../../../hooks/use-export-vehicles";
 import { useVehiclesInfiniteList } from "../../../hooks/use-vehicles-infinite-list";
 import type { Vehicle, VehicleStatus } from "../../../types/Vehicle";
-import { toast } from "sonner";
-import { useExportVehicles } from "../../../hooks/use-export-vehicles";
 
 const VehiclesPage = () => {
 	const { loading } = useAuth();
 	const pageSize = 6;
-
+	
 	const [statusFilter, setStatusFilter] = useState<VehicleStatus | "">("");
 	const [search, setSearch] = useState("");
 	const [sortBy, setSortBy] = useState("createdAt");
 	const [sortDesc, setSortDesc] = useState(true);
-
+	const { exportCSV } = useExportVehicles(statusFilter, search, sortBy, sortDesc);
+	
 	const {
 		data,
 		fetchNextPage,
@@ -74,8 +75,8 @@ const VehiclesPage = () => {
 	const handleExportCSV = async () => {
 		try {
 			// TODO EXPORT CSV
-			useExportVehicles(statusFilter, search, sortBy, sortDesc)
-			toast.success('CSV exportado')
+			await exportCSV();
+			toast.success('CSV export completed!')
 		} catch (error) {
 			console.error(error);
 			toast.error('CSV exportation failed')

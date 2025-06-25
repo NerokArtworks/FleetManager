@@ -77,7 +77,6 @@ builder.Services.AddAuthentication(options =>
         },
         OnTokenValidated = context =>
         {
-            Console.WriteLine("JWT Token valid!");
             return Task.CompletedTask;
         },
         OnMessageReceived = context =>
