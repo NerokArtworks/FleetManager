@@ -9,10 +9,12 @@ using Microsoft.AspNetCore.Mvc;
 public class VehicleController : ControllerBase
 {
     private readonly IVehicleService _vehicleService;
+    private readonly IVehicleExportService _vehicleExporterService;
 
-    public VehicleController(IVehicleService vehicleService)
+    public VehicleController(IVehicleService vehicleService, IVehicleExportService vehicleExporterService)
     {
         _vehicleService = vehicleService;
+        _vehicleExporterService = vehicleExporterService;
     }
 
     // Listado paginado
@@ -34,7 +36,6 @@ public class VehicleController : ControllerBase
         return Ok(new { data = vehicles, total, page, pageSize });
     }
 
-    // Resumen de vehículos por estado usando enum para evitar strings mágicas
     [Authorize]
     [HttpGet("summary")]
     public async Task<IActionResult> GetVehiclesSummary()
@@ -99,5 +100,23 @@ public class VehicleController : ControllerBase
         }
 
         return NoContent();
+    }
+
+    [Authorize]
+    [HttpGet("export")]
+    public async Task<IActionResult> ExportVehicles(
+        VehicleStatus? status = null,
+        string? search = null,
+        string? sortBy = null,
+        bool sortDesc = false)
+    {
+        var vehicles = await _vehicleService.GetAllAsync(status, search, sortBy, sortDesc);
+
+        var csv = _vehicleExporterService.GenerateCsv(vehicles);
+
+        var bytes = System.Text.Encoding.UTF8.GetBytes(csv);
+        var stream = new MemoryStream(bytes);
+
+        return File(stream, "text/csv", "vehicles.csv");
     }
 }
