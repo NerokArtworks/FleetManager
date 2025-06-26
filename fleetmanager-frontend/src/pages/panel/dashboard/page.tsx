@@ -1,4 +1,5 @@
 import {
+    Archive,
     CarFront,
     LogOut,
     Route,
@@ -59,6 +60,12 @@ const DashboardPage = () => {
                 icon: <Wrench className="w-5 h-5 text-red-500" />,
                 color: "#eb4f34",
             },
+            {
+                label: "Retired",
+                count: summaryData?.retired ?? 0,
+                icon: <Archive className="w-5 h-5 text-gray-500" />,
+                color: "#6B7280",
+            }
         ];
 
         setStatusSummary(summary);
@@ -78,7 +85,7 @@ const DashboardPage = () => {
     return (
         <div className="w-full bg-muted p-4 sm:p-6 text-foreground space-y-8">
             {/* Header */}
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
                 <h1 className="text-3xl font-semibold">Fleet Panel</h1>
                 <Button variant="primary" onClick={handleLogout} className="flex items-center gap-2">
                     <LogOut className="h-4 w-4" />
@@ -87,7 +94,7 @@ const DashboardPage = () => {
             </div>
 
             {/* Summary Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
                 {statusSummary.map((item) => (
                     <VehicleSummaryCard
                         key={item.label}

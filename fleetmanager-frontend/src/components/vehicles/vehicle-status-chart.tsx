@@ -1,4 +1,4 @@
-import { CarFront, Route, Wrench } from "lucide-react";
+import { Archive, CarFront, Route, Wrench } from "lucide-react";
 import type { JSX } from "react";
 import {
 	Cell,
@@ -17,6 +17,7 @@ const ICONS: Record<string, JSX.Element> = {
 	Active: <CarFront className="inline-block w-4 h-4 mr-1 text-green-500" />,
 	Inactive: <Route className="inline-block w-4 h-4 mr-1 text-yellow-500" />,
 	Maintenance: <Wrench className="inline-block w-4 h-4 mr-1 text-red-500" />,
+	Retired: <Archive className="inline-block w-4 h-4 mr-1 text-gray-500" />,
 };
 
 const CustomTooltip = ({ active, payload }: any) => {

@@ -76,6 +76,12 @@ const VehiclesPage = () => {
 			icon: <Wrench className="w-5 h-5 text-red-500" />,
 			color: "text-red-600",
 		},
+		{
+			label: "Retired",
+			count: vehicles.filter((v) => v.status === vehicleStatuses[3]).length,
+			icon: <Wrench className="w-5 h-5 text-red-500" />,
+			color: "text-red-600",
+		},
 	];
 
 	const handleCreate = () => {
@@ -101,7 +107,7 @@ const VehiclesPage = () => {
 	if (error) return <div>Error fetching vehicles</div>;
 
 	return (
-		<div className="p-4 sm:p-6 space-y-8">
+		<div className="w-full p-4 sm:p-6 space-y-8">
 			{/* Header */}
 			<VehiclesToolbar
 				onCreate={handleCreate}
@@ -122,7 +128,7 @@ const VehiclesPage = () => {
 			/>
 
 			{/* Summary Cards */}
-			<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+			<div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
 				{statusSummary.map((s) => (
 					<VehicleSummaryCard
 						key={s.label}

@@ -1,22 +1,15 @@
-import { Pencil, Trash2 } from "lucide-react";
+import { formatDate } from "../../lib/utils";
 import { vehicleStatuses, type Vehicle } from "../../types/Vehicle";
 import { Badge } from "../ui/badge";
-import Button from "../ui/button";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
+import ActionButtons from "./vehicle-list-action-buttons";
 
-interface Props {
+interface VehicleCardProps {
 	vehicle: Vehicle;
 	onEdit: (vehicle: Vehicle) => void;
 	onDelete: (vehicle: Vehicle) => void;
 }
 
-const formatDate = (dateString?: string | null) => {
-	if (!dateString) return "-";
-	const date = new Date(dateString);
-	return date.toLocaleDateString();
-};
-
-const VehicleCard = ({ vehicle, onEdit, onDelete }: Props) => {
+const VehicleCard = ({ vehicle, onEdit, onDelete }: VehicleCardProps) => {
 	return (
 		<tr className="shadow-sm hover:shadow transition cursor-default">
 			<td className="bg-white dark:bg-gray-800 pl-4 py-4 rounded-l-xl align-middle min-w-[220px]">
@@ -42,25 +35,7 @@ const VehicleCard = ({ vehicle, onEdit, onDelete }: Props) => {
 
 			<td className="bg-white dark:bg-gray-800 pr-4 py-4 rounded-r-xl align-middle text-right">
 				<div className="flex items-center justify-end gap-2">
-					<TooltipProvider delayDuration={200} skipDelayDuration={100}>
-						<Tooltip>
-							<TooltipTrigger asChild>
-								<Button variant="primary" size="icon" onClick={() => onEdit(vehicle)}>
-									<Pencil className="w-4 h-4" />
-								</Button>
-							</TooltipTrigger>
-							<TooltipContent>Edit vehicle</TooltipContent>
-						</Tooltip>
-
-						<Tooltip>
-							<TooltipTrigger asChild>
-								<Button variant="destructive" size="icon" onClick={() => onDelete(vehicle)}>
-									<Trash2 className="w-4 h-4" />
-								</Button>
-							</TooltipTrigger>
-							<TooltipContent variant="destructive">Delete vehicle</TooltipContent>
-						</Tooltip>
-					</TooltipProvider>
+					<ActionButtons onEdit={onEdit} onDelete={onDelete} vehicle={vehicle} />
 				</div>
 			</td>
 		</tr>

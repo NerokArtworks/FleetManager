@@ -23,6 +23,7 @@ export interface VehiclesSummary {
 	active: number;
 	inactive: number;
 	maintenance: number;
+	retired: number;
 }
 
 export interface VehicleListFilters {

@@ -44,8 +44,9 @@ public class VehicleController : ControllerBase
         var active = await _vehicleService.CountByStatusAsync(VehicleStatus.Active);
         var inactive = await _vehicleService.CountByStatusAsync(VehicleStatus.Inactive);
         var maintenance = await _vehicleService.CountByStatusAsync(VehicleStatus.Maintenance);
+        var retired = await _vehicleService.CountByStatusAsync(VehicleStatus.Retired);
 
-        return Ok(new { total, active, inactive, maintenance });
+        return Ok(new { total, active, inactive, maintenance, retired });
     }
 
     [HttpGet("{id:guid}")]

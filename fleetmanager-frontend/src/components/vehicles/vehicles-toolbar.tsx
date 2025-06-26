@@ -14,20 +14,20 @@ const VehiclesToolbar = ({
     onPrint,
 }: VehiclesToolbarProps) => {
     return (
-        <div className="flex justify-between items-center">
+        <div className="w-full flex flex-col md:flex-row justify-between items-center gap-4">
             <h1 className="text-2xl font-semibold text-gray-800 dark:text-gray-50">Fleet Vehicles</h1>
 
             <div className="flex items-center space-x-4">
                 <Button variant="primary" onClick={onCreate} className="flex items-center">
                     <Plus className="h-4 w-4 mr-2" />
-                    New Vehicle
+                    <span className="text-sm md:text-xl">New Vehicle</span>
                 </Button>
 
                 <DropdownMenu.Root>
                     <DropdownMenu.Trigger asChild>
                         <Button
                             variant="outline"
-                            className="flex items-center justify-center"
+                            className="flex items-center justify-center text-sm md:text-xl"
                             aria-label="Actions"
                         >
                             Actions

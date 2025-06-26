@@ -1,8 +1,8 @@
 import { ChevronLeft, Home, Settings, Truck } from 'lucide-react';
 import { useState } from 'react';
-import { cn } from '../../lib/utils';
+import { cn } from '../lib/utils';
 import SidebarItem from './sidebar-item';
-import Button from './button';
+import Button from './ui/button';
 
 const Sidebar = () => {
     const [isExpanded, setIsExpanded] = useState(false);
@@ -59,7 +59,7 @@ const Sidebar = () => {
             )}>
                 <SidebarItem to="/panel/dashboard" icon={Home} label="Dashboard" isExpanded={isExpanded} />
                 <SidebarItem to="/panel/vehicles" icon={Truck} label="Vehicles" isExpanded={isExpanded} />
-                <SidebarItem to="/panel/settings" icon={Settings} label="Settings" isExpanded={isExpanded} />
+                {/* <SidebarItem to="/panel/settings" icon={Settings} label="Settings" isExpanded={isExpanded} /> */}
             </nav>
         </aside>
     );
