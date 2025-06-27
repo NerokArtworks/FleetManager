@@ -2,6 +2,7 @@ using FleetManager.Infrastructure.Data;
 using FleetManager.Application.Interfaces;
 using FleetManager.Application.Services;
 using FleetManager.Domain.Entities;
+using FleetManager.Infrastructure.Seeders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
@@ -140,5 +141,8 @@ app.UseCors("AllowFrontend");
 app.UseAuthentication();  // <-- Important: UseAuthentication before Authorization
 app.UseAuthorization();
 app.MapControllers();
+
+// Seed db
+DbInitializer.Seed(app.Services);
 
 app.Run();
