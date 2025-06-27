@@ -2,7 +2,7 @@ import { useState } from "react";
 import { type VehicleStatus } from "../types/Vehicle";
 
 export const useVehicleFilters = () => {
-	const [statusFilter, setStatusFilter] = useState<VehicleStatus | "">("");
+	const [statusFilter, setStatusFilter] = useState<VehicleStatus>();
 	const [search, setSearch] = useState("");
 	const [sortBy, setSortBy] = useState("createdAt");
 	const [sortDesc, setSortDesc] = useState(true);

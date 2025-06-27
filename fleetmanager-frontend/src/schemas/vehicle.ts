@@ -27,7 +27,6 @@ export const vehicleSchema = z.object({
 		.refine((val) => !val || !isNaN(Date.parse(val)), {
 			message: "Next inspection due must be a valid date",
 		}),
-	lastUpdated: z.string().optional(),
 	location: z.string().optional(),
 	notes: z.string().optional(),
 });

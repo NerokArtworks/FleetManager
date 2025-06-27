@@ -21,7 +21,6 @@ export const CreateVehicleForm = ({ onClose, onSubmit }: CreateVehicleFormProps)
 		vin: "",
 		lastInspectionDate: "",
 		nextInspectionDue: "",
-		lastUpdated: "",
 		location: "",
 		notes: "",
 	});
@@ -165,15 +164,6 @@ export const CreateVehicleForm = ({ onClose, onSubmit }: CreateVehicleFormProps)
 						type="date"
 						value={formData.nextInspectionDue || ""}
 						onChange={(val) => handleChange("nextInspectionDue", val)}
-					/>
-
-					{/* Last Updated */}
-					<FormField
-						id="lastUpdated"
-						label="Last Updated"
-						type="date"
-						value={formData.lastUpdated || ""}
-						onChange={(val) => handleChange("lastUpdated", val)}
 					/>
 				</div>
 

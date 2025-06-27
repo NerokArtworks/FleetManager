@@ -56,7 +56,7 @@ const VehiclesPage = () => {
 
 	const vehicles = data?.pages.flatMap(page => page.data) ?? [];
 
-	// Summary basado en vehicles
+	// Vehicle summary
 	const statusSummary = [
 		{
 			label: "Active",
@@ -115,7 +115,7 @@ const VehiclesPage = () => {
 				onPrint={handlePrint}
 			/>
 
-			{/* Filtros */}
+			{/* Filters */}
 			<VehiclesFilters
 				search={search}
 				setSearch={setSearch}
@@ -140,14 +140,14 @@ const VehiclesPage = () => {
 				))}
 			</div>
 
-			{/* Lista de vehículos */}
+			{/* Vehicle list */}
 			<VehicleList vehicles={vehicles} onEdit={handleEdit} onDelete={handleDelete} />
 
-			{/* Botón cargar más */}
+			{/* Load more button */}
 			{hasNextPage && (
 				<div className="flex justify-center mt-4">
 					<Button onClick={() => fetchNextPage()} disabled={isFetchingNextPage}>
-						{isFetchingNextPage ? 'Cargando...' : 'Cargar más'}
+						{isFetchingNextPage ? 'Loading...' : 'Load more'}
 					</Button>
 				</div>
 			)}

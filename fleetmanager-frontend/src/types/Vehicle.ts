@@ -10,10 +10,9 @@ export interface Vehicle {
 	status: VehicleStatus;
 	kilometers: number;
 	vin: string;
-	createdAt: string;
+	createdAt?: string;
 	lastInspectionDate?: string;
 	nextInspectionDue?: string;
-	lastUpdated?: string;
 	location?: string;
 	notes?: string;
 }
