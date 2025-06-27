@@ -1,23 +1,23 @@
 # FleetManager
 
-Proyecto de prueba para la gestión básica de una flota de vehículos.
+Test project for basic fleet management.
 
-## Tecnologías
+## Technologies
 
-- Backend: ASP.NET Core Web API
-- Frontend: React + Vite + TailwindCSS
-- Base de datos: PostgreSQL
-- ORM: Entity Framework Core
+- Backend: ASP.NET Core Web API  
+- Frontend: React + Vite + TailwindCSS  
+- Database: PostgreSQL  
+- ORM: Entity Framework Core  
 
-## Funcionalidades principales
+## Main Features
 
-- Gestión simple de vehículos (alta, edición, baja lógica)
-- Dashboard con gráficas básicas de estado y mantenimientos
-- Autenticación básica con Identity y JWT
-- API REST para comunicación frontend-backend
+- Basic vehicle management (create, edit, soft delete)  
+- Dashboard with simple status and maintenance charts  
+- Basic authentication with Identity and JWT  
+- REST API for frontend-backend communication  
 
-### Requisitos
+### Requirements
 
-- [.NET 8 SDK](https://dotnet.microsoft.com/download)
-- [Node.js 18+](https://nodejs.org/)
-- [PostgreSQL](https://www.postgresql.org/)
+- [.NET 8 SDK](https://dotnet.microsoft.com/download)  
+- [Node.js 18+](https://nodejs.org/)  
+- [PostgreSQL](https://www.postgresql.org/)  
