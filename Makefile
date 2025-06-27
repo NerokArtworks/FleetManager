@@ -10,5 +10,8 @@ clean:
 run:
 	dotnet run --project FleetManager.API
 
+update:
+	dotnet ef database update --project FleetManager.Infrastructure --startup-project FleetManager.API
+
 test:
 	dotnet test FleetManager.Tests/FleetManager.Tests.csproj
