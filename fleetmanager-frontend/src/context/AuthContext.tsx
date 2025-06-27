@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 import api from '../api/axios';
-import type { AuthContextType, LoginParams, RegisterParams, User } from '../types/Auth';
+import type { AuthContextType, LoginParams, RegisterParams } from '../types/Auth';
+import type { User } from '../types/User';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -8,46 +9,61 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                const res = await api.get('/auth/me');
+    const fetchUser = async () => {
+        try {
+            const res = await api.get('/auth/me');
+            if (res.data && res.data.email) {
                 setUser(res.data);
-            } catch {
+            } else {
                 setUser(null);
-            } finally {
-                setLoading(false);
             }
-        };
+        } catch (error) {
+            setUser(null);
+            console.error("Fetch user failed:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
+    useEffect(() => {
         fetchUser();
     }, []);
 
-    const login = async ( LoginParams: LoginParams) => {
-        const params = {
-            Email: LoginParams.email,
-            Password: LoginParams.password
+    const login = async (params: LoginParams) => {
+        try {
+            await api.post("/auth/login", {
+                Email: params.email,
+                Password: params.password,
+            });
+            await fetchUser();
+        } catch (error) {
+            console.error("Login failed:", error);
+            throw error;
         }
-        await api.post('/auth/login', params);
-        const res = await api.get('/auth/me');
-        setUser(res.data);
     };
 
-    const register = async (registerParams: RegisterParams) => {
-        const params = {
-            FirstName: registerParams.firstname,
-            LastName: registerParams.lastname,
-            CompanyName: registerParams.companyName,
-            Email: registerParams.email,
-            Password: registerParams.password,
-        };
-        console.log(params)
-        await api.post('/auth/register', params);
+    const register = async (params: RegisterParams) => {
+        try {
+            await api.post("/auth/register", {
+                FirstName: params.firstname,
+                LastName: params.lastname,
+                CompanyName: params.companyName,
+                Email: params.email,
+                Password: params.password,
+            });
+        } catch (error) {
+            console.error("Register failed:", error);
+            throw error;
+        }
     };
 
     const logout = async () => {
-        await api.post('/auth/logout');
-        setUser(null);
+        try {
+            await api.post("/auth/logout");
+            setUser(null);
+        } catch (error) {
+            console.error("Logout failed:", error);
+        }
     };
 
     return (

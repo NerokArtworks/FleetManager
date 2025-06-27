@@ -152,7 +152,7 @@ const VehiclesPage = () => {
 				</div>
 			)}
 
-			{isLoading && <p className="mt-2 text-sm text-gray-500">Actualizando datos...</p>}
+			{isLoading && <p className="mt-2 text-sm text-gray-500">Refreshing data...</p>}
 
 			{modalOpen && (
 				<ModalWrapper onClose={closeCreateModal}>

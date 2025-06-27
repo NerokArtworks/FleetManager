@@ -1,12 +1,13 @@
 export const usePrintVehicles = () => {
-    const print = (elementId: string) => {
-        const printContent = document.getElementById(elementId);
-        if (!printContent) return;
+  // TODO: this is not implemented yet
+  const print = (elementId: string) => {
+    const printContent = document.getElementById(elementId);
+    if (!printContent) return;
 
-        const printWindow = window.open('', '', 'width=800,height=600');
-        if (!printWindow) return;
+    const printWindow = window.open('', '', 'width=800,height=600');
+    if (!printWindow) return;
 
-        printWindow.document.write(`
+    printWindow.document.write(`
       <html>
         <head>
           <title>Imprimir Vehículos</title>
@@ -24,11 +25,11 @@ export const usePrintVehicles = () => {
         </body>
       </html>
     `);
-        printWindow.document.close();
-        printWindow.focus();
-        printWindow.print();
-        printWindow.close();
-    };
+    printWindow.document.close();
+    printWindow.focus();
+    printWindow.print();
+    printWindow.close();
+  };
 
-    return { print };
+  return { print };
 };
